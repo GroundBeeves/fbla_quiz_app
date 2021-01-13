@@ -1,0 +1,371 @@
+#:kivy 2.0.0
+
+<StartScreen>
+
+    MDBoxLayout:
+        md_bg_color: app.theme_cls.primary_dark
+        orientation: 'vertical'
+        AnchorLayout:
+            anchor_x: 'center'
+            anchor_y: 'center'
+            BoxLayout:
+                orientation: 'vertical'
+                Image:
+                    source: "resources\\fbla_logo.png"
+                MDLabel:
+                    text: "[b]QUIZ![/b]"
+                    markup: True
+                    halign: 'center'
+                    font_size: '30dp'
+                    theme_text_color: "Custom"
+                    text_color: 0, 0.32, 0.6
+                    size_hint_y: 0.005
+        BoxLayout:
+            orientation: 'vertical'
+            spacing: root.height / 32
+            padding: root.height / 8
+            MDFillRoundFlatButton:
+                text: "Start"
+                size_hint: .5, .125
+                font_size: "25dp"
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                on_press:
+                    app.resetQuiz()
+                    root.manager.transition.direction = 'up'
+                    root.manager.current = root.manager.next()
+            MDFillRoundFlatButton:
+                text: "Exit"
+                size_hint: .5, .125
+                font_size: "25dp"
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                on_press: app.get_running_app().stop()
+
+<MuchScreen>
+
+    question_text: question_text
+    qnumber: qnumber
+    choice1: choice1
+    choice2: choice2
+    choice3: choice3
+    choice4: choice4
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'vertical'
+            MDLabel:
+                id: qnumber
+                text: '0'
+                halign: 'center'
+                font_style: 'Button'
+                font_size: '20sp'
+            MDLabel:
+                id: question_text
+                halign: 'center'
+                font_style: 'H6'
+                font_size: '25sp'
+        GridLayout:
+            cols: 2
+            rows: 2
+            spacing: root.height / 32
+            padding: root.height / 8
+            MDFillRoundFlatButton:
+                id: choice1
+                size_hint: .5, .5
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                font_size: '25sp'
+                on_press:
+                    root.answerChosen(choice1)
+            MDFillRoundFlatButton:
+                id: choice2
+                size_hint: .5, .5
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                font_size: '25sp'
+                on_press:
+                    root.answerChosen(choice2)
+            MDFillRoundFlatButton:
+                id: choice3
+                size_hint: .5, .5
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                font_size: '25sp'
+                on_press:
+                    root.answerChosen(choice3)
+            MDFillRoundFlatButton:
+                id: choice4
+                size_hint: .5, .5
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                font_size: '25sp'
+                on_press:
+                    root.answerChosen(choice4)
+
+<FITBScreen>
+
+    question_text: question_text
+    qnumber: qnumber
+    answer_given: answer_given
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'vertical'
+            MDLabel:
+                id: qnumber
+                text: '0'
+                halign: 'center'
+                font_style: 'Button'
+                font_size: '20sp'
+            MDLabel:
+                id: question_text
+                halign: 'center'
+                font_style: 'H6'
+                font_size: '25sp'
+        GridLayout:
+            cols: 1
+            spacing: root.height / 32
+            padding: root.height / 8
+            MDTextField:
+                id: answer_given
+                required: True
+                font_size: "20sp"
+                helper_text_mode: "on_error"
+                helper_text: "You must enter a response."
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'bottom'
+        padding: [10, 10, 10, 10]
+        MDRaisedButton:
+            text: "Submit"
+            on_press: root.answerChosen()
+
+<TOFScreen>
+
+    question_text: question_text
+    qnumber: qnumber
+    trueChoice: trueChoice
+    falseChoice: falseChoice
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        BoxLayout:
+            orientation: 'vertical'
+            MDLabel:
+                id: qnumber
+                text: '0'
+                halign: 'center'
+                font_style: 'Button'
+                font_size: '20sp'
+            MDLabel:
+                id: question_text
+                halign: 'center'
+                font_style: 'H6'
+                font_size: '25sp'
+        GridLayout:
+            cols: 2
+            rows: 2
+            spacing: root.height / 32
+            padding: root.height / 8
+            MDFillRoundFlatButton:
+                id: trueChoice
+                size_hint: .5, .5
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                font_size: "25sp"
+                on_press:
+                    root.answerChosen(trueChoice)
+            MDFillRoundFlatButton:
+                id: falseChoice
+                size_hint: .5, .5
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                font_size: "25sp"
+                on_press:
+                    root.answerChosen(falseChoice)
+
+
+<SelectScreen>
+
+    question_text: question_text
+    qnumber: qnumber
+
+    box1: box1
+    box2: box2
+    box3: box3
+    box4: box4
+    box5: box5
+    box6: box6
+
+    answer1: answer1
+    answer2: answer2
+    answer3: answer3
+    answer4: answer4
+    answer5: answer5
+    answer6: answer6
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDBoxLayout:
+            orientation: 'vertical'
+            MDLabel:
+                id: qnumber
+                text: '0'
+                halign: 'center'
+                font_style: 'Button'
+                font_size: '20sp'
+            MDLabel:
+                id: question_text
+                halign: 'center'
+                font_style: 'H6'
+                font_size: '25sp'
+        MDGridLayout:
+            cols: 2
+            rows: 3
+            MDBoxLayout:
+                orientation: 'horizontal'
+                MDCheckbox:
+                    id: box1
+                    size: "48dp", "48dp"
+                MDLabel:
+                    id: answer1
+                    font_size: "25sp"
+            MDBoxLayout:
+                orientation: 'horizontal'
+                MDCheckbox:
+                    id: box2
+                    size: "48dp", "48dp"
+                MDLabel:
+                    id: answer2
+                    font_size: "25sp"
+            MDBoxLayout:
+                orientation: 'horizontal'
+                MDCheckbox:
+                    id: box3
+                    size: "48dp", "48dp"
+                MDLabel:
+                    id: answer3
+                    font_size: "25sp"
+            MDBoxLayout:
+                orientation: 'horizontal'
+                MDCheckbox:
+                    id: box4
+                    size: "48dp", "48dp"
+                MDLabel:
+                    id: answer4
+                    font_size: "25sp"
+            MDBoxLayout:
+                orientation: 'horizontal'
+                MDCheckbox:
+                    id: box5
+                    size: "48dp", "48dp"
+                MDLabel:
+                    id: answer5
+                    font_size: "25sp"
+            MDBoxLayout:
+                orientation: 'horizontal'
+                MDCheckbox:
+                    id: box6
+                    size: "48dp", "48dp"
+                MDLabel:
+                    id: answer6
+                    font_size: "25sp"
+        AnchorLayout:
+            anchor_x: 'left'
+            anchor_y: 'bottom'
+            padding: [10, 10, 10, 10]          
+            MDRaisedButton:
+                text: "Submit"
+                on_press: root.answerChosen()
+
+<ResultsScreen>
+
+    on_pre_enter: root.calculateResults()   
+
+    results_disp: results_disp
+    results_card: results_card
+
+    question_number: question_number
+    question_text: question_text
+    your_answer: your_answer
+    correct_answer: correct_answer
+
+    MDBoxLayout:
+        orientation: 'vertical'
+        MDBoxLayout:
+            size_hint_y: .5
+            orientation: 'vertical'
+            MDLabel:
+                text: "RESULTS"
+                halign: 'center'
+                font_size: '20dp'
+            MDLabel:
+                id: results_disp
+                text: "SCORE"
+                halign: 'center'
+                font_size: "50dp"
+
+        MDBoxLayout:
+            orientation: 'vertical'
+            spacing: root.height / 32
+            padding: root.height / 8
+            MDCard:
+                id: results_card
+                orientation: "vertical"
+                padding: "8dp"
+                size_hint: None, None
+                size: "600dp", "300dp"
+                pos_hint: {"center_x": .5, "center_y": .5}
+
+                MDLabel:
+                    id: question_number
+                    text: "Question"
+                    theme_text_color: "Secondary"
+                    size_hint_y: None
+                    height: self.texture_size[1]
+
+                MDSeparator:
+                    height: "1dp"
+
+                MDLabel:
+                    id: question_text
+                    text: "Question?"
+
+                MDLabel:
+                    id: your_answer
+                    text: "Your answer:"
+                MDLabel:
+                    id: correct_answer
+                    text: "Correct answer:"
+                MDBoxLayout:
+                    md_bg_color: app.theme_cls.primary_dark
+                    orientation: 'horizontal'
+                    rows: 1
+                    size_hint: .25, .25
+                    MDRaisedButton:
+                        text: "Previous"
+                        on_press:
+                            root.updateQuestionCard(direction='previous')
+                    MDRaisedButton:
+                        text: "Next"
+                        on_press:
+                            root.updateQuestionCard(direction='next')
+    AnchorLayout:
+        anchor_x: 'left'
+        anchor_y: 'bottom'
+        padding: [10, 10, 10, 10]
+        MDBoxLayout:
+            orientation: 'horizontal'
+            spacing: 5
+            MDRaisedButton:
+                text: "Return to Main Menu"
+                padding_x: 100
+                on_press:
+                    app.sm.current = 'start'
+            MDRaisedButton:
+                text: "Save Results"
+                padding_x: 5
+                on_press: app.open_file()
+
+<FileChooserWindow>
+
+    id: filechooser
+    dirselect: True
+    filters: [app.is_dir]
+    on_selection: self.saveToComputer(self.selection)
+        
