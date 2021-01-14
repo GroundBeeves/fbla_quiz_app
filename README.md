@@ -4,11 +4,11 @@ The FBLA Quiz! App is a trivia application that tests the user on different fact
 
 ## Installation
 
-The game runs on Python and the [Kivy NUI framework](https://kivy.org/#home). More importantly, it also utilizes [KivyMD](https://github.com/kivymd/KivyMD). Make sure you have both of those installed including all dependencies that may be needed for running (including reportlab for PDF generation). After all dependencies are installed, you can run the main.py file.
+Download the fbla_app.zip file. This contains a [PyInstaller](https://www.pyinstaller.org/)-made  .exe file. Once the folder is extracted, DO NOT MOVE THE EXE FILE. It won't run without the surrounding dependencies and resources. If you run the fbla.exe file in this .zip file, the game will run.
 
-Or... you can skip all that and download the fbla_app.zip file. This contains a [PyInstaller](https://www.pyinstaller.org/)-made  .exe file. Once the folder is extracted, DO NOT MOVE THE EXE FILE. It won't run without the surrounding dependencies and resources. If you run the fbla.exe file, the game will run.
+The game runs on Python and the [Kivy NUI framework](https://kivy.org/#home). More importantly, it also utilizes [KivyMD](https://github.com/kivymd/KivyMD). Make sure you have both of those installed including all dependencies that may be needed for running (including reportlab for PDF generation). After all dependencies are installed, you can run the main.py file if you want to run it through code.
 
-While a single .exe file could be made with PyInstaller, it doesn't allow for access to the questions.json file. It creates and deletes a temporary version of the .json file, so any changes to it would be deleted.
+While a single .exe file could be made with PyInstaller, it doesn't allow for access to the questions.json file. It creates and deletes a temporary version of the .json file, so any changes to it would be deleted. If we were to silence the console so just game window showed up, it would raise a flag in antivirus software (something many Kivy users noticed) so shown it will stay.
 
 ## PyInstaller Compilation
 
