@@ -7,6 +7,7 @@ Python
 Copyright (c) 1991-1995 by Stichting Mathematisch Centrum, Amsterdam, The Netherlands.
 
 Kivy
+Copyright (c) 2010-2020 Kivy Team and other contributors
 Copyright (c) 2006-2021, Georg Brandl and Pygments contributors
 
 The OpenGL Extension Wrangler Library
