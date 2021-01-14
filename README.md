@@ -20,8 +20,11 @@ This compiles a new distribution in a 'dist' folder in the same folder as the ma
 
 # Works Cited
 “About FBLA-PBL” Future Business Leaders of America-Phi Beta Lambda. Accessed 9 Jan. 2021, https://www.fbla-pbl.org/about/.
+
 “FBLA National Officers” Future Business Leaders of America-Phi Beta Lambda. Accessed 9 Jan. 2021, https://www.fbla-pbl.org/fbla/officers/.
+
 “History of FBLA-PBL” Future Business Leaders of America-Phi Beta Lambda. Accessed 9 Jan. 2021, https://www.fbla-pbl.org/about/history/.
+
 "FBLA-PBL Fact Sheet" Future Business Leaders of America-Phi Beta Lambda. Web. Accessed 9 Jan. 2021, https://www.fbla-pbl.org/media/2019%E2%80%9320-FBLA-Fact-Sheets.pdf
 
 ## The following languages and libraries were used in this project:
