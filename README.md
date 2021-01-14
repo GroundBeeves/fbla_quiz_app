@@ -18,11 +18,32 @@ python -m PyInstaller fbla.spec -y
 ```
 This compiles a new distribution in a 'dist' folder in the same folder as the main.py folder.
 
-## Works Cited
+# Works Cited
 “About FBLA-PBL” Future Business Leaders of America-Phi Beta Lambda. Accessed 9 Jan. 2021, https://www.fbla-pbl.org/about/.
 “FBLA National Officers” Future Business Leaders of America-Phi Beta Lambda. Accessed 9 Jan. 2021, https://www.fbla-pbl.org/fbla/officers/.
 “History of FBLA-PBL” Future Business Leaders of America-Phi Beta Lambda. Accessed 9 Jan. 2021, https://www.fbla-pbl.org/about/history/.
 "FBLA-PBL Fact Sheet" Future Business Leaders of America-Phi Beta Lambda. Web. Accessed 9 Jan. 2021, https://www.fbla-pbl.org/media/2019%E2%80%9320-FBLA-Fact-Sheets.pdf
 
-The following languages and libraries were used in this project: Copyright (c) 1991-1995 by Stichting Mathematisch Centrum, Amsterdam, The Netherlands - Python; Copyright (c) 2010-2020 Kivy Team and other contributors - Kivy; Copyright (c) 2008-2016; Nigel Stewart <nigels[]users sourceforge net> - The OpenGL Extension Wrangler Library; Copyright (c) 2002-2008, Milan Ikits <milan ikits[]ieee org> - The OpenGL Extension Wrangler Library; Copyright (c) 2002-2008, Marcelo E. Magallon <mmagallo[]debian org> - The OpenGL Extension Wrangler Library; Copyright (c) 2002, Lev Povalahev - The OpenGL Extension Wrangler Library; Copyright (c) 2015 Andrés Rodríguez and other contributors - KivyMD library up to version 0.1.2; Copyright (c) 2020 KivyMD Team and other contributors - KivyMD library version 0.1.3 and higher; Reportlab Copyright (c) 2000-2014, ReportLab Inc.
+##The following languages and libraries were used in this project:
+###Python 
+Copyright (c) 1991-1995 by Stichting Mathematisch Centrum, Amsterdam, The Netherlands.
 
+###Kivy
+Copyright (c) 2006-2021, Georg Brandl and Pygments contributors
+
+###The OpenGL Extension Wrangler Library
+Copyright (c) 2008-2016, Nigel Stewart <nigels[]users sourceforge net>
+Copyright (c) 2002-2008, Milan Ikits <milan ikits[]ieee org>
+Copyright (c) 2002-2008, Marcelo E. Magallon <mmagallo[]debian org>
+Copyright (c) 2002, Lev Povalahev
+
+
+###KivyMD
+Copyright (c) 2015 Andrés Rodríguez and other contributors - KivyMD library up to version 0.1.2
+Copyright (c) 2020 KivyMD Team and other contributors - KivyMD library version 0.1.3 and higher
+
+###Reportlab
+Copyright (c) 2000-2014, ReportLab Inc.
+
+###Future Business Leaders of America
+Copyright (c) 2019 FBLA-PBL
