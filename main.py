@@ -22,6 +22,9 @@ Copyright (c) 2020 KivyMD Team and other contributors - KivyMD library version 0
 
 Reportlab
 Copyright (c) 2000-2014, ReportLab Inc.
+
+Future Business Leaders of America
+Copyright (c) 2019 FBLA-PBL
 """
 
 # BUILT-IN IMPORTS
