@@ -34,6 +34,13 @@
                     root.manager.transition.direction = 'up'
                     root.manager.current = root.manager.next()
             MDFillRoundFlatButton:
+                text: "Information"
+                size_hint: .5, .125
+                font_size: "25dp"
+                pos_hint: {"center_x": 0.5, "center_y": 0.5}
+                on_press:
+                    app.open_copyright()
+            MDFillRoundFlatButton:
                 text: "Exit"
                 size_hint: .5, .125
                 font_size: "25dp"
@@ -368,4 +375,10 @@
     dirselect: True
     filters: [app.is_dir]
     on_selection: self.saveToComputer(self.selection)
-        
+
+<CopyrightInfo>
+    theme_text_color: "Custom"
+    text_color: [1, 1, 1, 1]
+    halign: 'center'
+    text_size: (root.width, None)
+    size: self.texture_size

@@ -1,6 +1,29 @@
 # python -m PyInstaller --name FBLA --icon resources\icon.ico main.py
 # python -m PyInstaller FBLA.spec
 
+copyright_information = """
+The following languages and libraries were used in this project:
+Python 
+Copyright (c) 1991-1995 by Stichting Mathematisch Centrum, Amsterdam, The Netherlands.
+
+Kivy
+Copyright (c) 2006-2021, Georg Brandl and Pygments contributors
+
+The OpenGL Extension Wrangler Library
+Copyright (c) 2008-2016, Nigel Stewart <nigels[]users sourceforge net>
+Copyright (c) 2002-2008, Milan Ikits <milan ikits[]ieee org>
+Copyright (c) 2002-2008, Marcelo E. Magallon <mmagallo[]debian org>
+Copyright (c) 2002, Lev Povalahev
+
+
+KivyMD
+Copyright (c) 2015 Andrés Rodríguez and other contributors - KivyMD library up to version 0.1.2
+Copyright (c) 2020 KivyMD Team and other contributors - KivyMD library version 0.1.3 and higher
+
+Reportlab
+Copyright (c) 2000-2014, ReportLab Inc.
+"""
+
 # BUILT-IN IMPORTS
 from os.path import join, isdir
 import json
@@ -18,7 +41,7 @@ from kivy.uix.filechooser import FileChooserListView
 # KIVYMD IMPORTS
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
-from kivymd.uix.boxlayout import MDBoxLayout
+from kivymd.uix.label import MDLabel
 from kivymd.toast import toast
 
 # CUSTOM MODULES
@@ -247,6 +270,11 @@ class FileChooserWindow(FileChooserListView):
         # Creates a pdf and saves it in the desired directory
         printingResults.runPrinting(question_list, user_answer_list, correct_answer_list, correct_status_list, directory)
 
+class CopyrightInfo(MDLabel):
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.text = copyright_information
+
 class FBLAApp(MDApp):
 
     def build(self):
@@ -287,8 +315,13 @@ class FBLAApp(MDApp):
 
     # Opens a file manager modal view (a little overlay window).
     def open_file(self):
-        view = ModalView(size_hint=(None, None), size=(400, 400))
+        view = ModalView(size_hint=(.5, .5))
         view.add_widget(FileChooserWindow())
+        view.open()
+
+    def open_copyright(self):
+        view = ModalView(size_hint=(.75, .8))
+        view.add_widget(CopyrightInfo())
         view.open()
 
     # This is just a filter so that the file manager can only display and
