@@ -1,5 +1,5 @@
 {
-    "Multiple Choice 1": [
+    "Multiple Choice": [
         {
             "Question": "Who is the Future Business Leaders of America's national charity partner?",
             "Choice1": "March of Dimes",
@@ -83,9 +83,7 @@
             "Choice2": "April",
             "Choice3": "May",
             "Choice4": "July"
-        }
-    ],
-    "Multiple Choice 2": [
+        },
         {
             "Question": "Which of these is NOT part of the FBLA-PBL Code of Ethics?",
             "Choice1": "education is the right of every person.",

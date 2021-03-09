@@ -31,14 +31,16 @@ Copyright (c) 2019 FBLA-PBL
 # BUILT-IN IMPORTS
 from os.path import join, isdir
 import json
-from random import choice, shuffle
+from random import choice, shuffle, sample
+from kivy.event import EventDispatcher
 import win32timezone
+from datetime import datetime
 
 import os, sys
 from kivy.resources import resource_add_path, resource_find
 
 # VANILLA KIVY IMPORTS
-from kivy.uix.screenmanager import ScreenManager
+from kivy.uix.screenmanager import ScreenManager, SlideTransition
 from kivy.uix.modalview import ModalView
 from kivy.uix.filechooser import FileChooserListView
 
@@ -46,6 +48,7 @@ from kivy.uix.filechooser import FileChooserListView
 from kivymd.app import MDApp
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.label import MDLabel
+from kivymd.uix.floatlayout import MDFloatLayout
 from kivymd.toast import toast
 
 # CUSTOM MODULES
@@ -55,19 +58,33 @@ import printingResults
 chosen_answers = []
 
 # Opens question data and extracts random questions for each type (Multiple Choice, FITB, ToF, etc.). App will access a QuestionSet()'s data for these questions.  
+
 class QuestionSet():
-    def createQuestions(self):
+    def createQuestions(self, mc_number, fitb_number, tof_number, select_number):
         with open('questions/questions.json') as f:
             question_data = json.load(f)
-            self.mc1 = choice(question_data["Multiple Choice 1"])
-            self.mc2 = choice(question_data["Multiple Choice 2"])
-            self.fitb = choice(question_data["Fill In The Blank"])
-            self.tof = choice(question_data["True or False"])
-            self.slct = choice(question_data["Select"])
 
-# Global QuestionSet()
-question_set = QuestionSet()
-question_set.createQuestions()
+            self.mc_questions = sample(question_data["Multiple Choice"], mc_number)
+            self.fitb_questions = sample(question_data["Fill In The Blank"], fitb_number)
+            self.tof_questions = sample(question_data["True or False"], tof_number)
+            self.select_questions = sample(question_data["Select"], select_number)
+
+        self.mc_question_list = []
+        for i in range(len(self.mc_questions)):
+            self.mc_question_list.append(MuchScreen(self.mc_questions[i], name=("mc"+str(i))))
+        
+        self.fitb_question_list = []
+        for i in range(len(self.fitb_questions)):
+            self.fitb_question_list.append(FITBScreen(self.fitb_questions[i], name=("fitb"+str(i))))
+
+        self.tof_question_list = []
+        for i in range(len(self.tof_questions)):
+            self.tof_question_list.append(TOFScreen(self.tof_questions[i], name=("tof"+str(i))))
+
+        self.select_question_list = []
+        for i in range(len(self.select_questions)):
+            self.select_question_list.append(SelectScreen(self.select_questions[i], name=("select"+str(i))))
+
 
 # If you're not sure how Kivy works, it's a GUI module.
 # You create the widgets in .kv file and code how they interact in a Python file.
@@ -81,14 +98,14 @@ class MuchScreen(MDScreen):
 
     global chosen_answers
 
-    def __init__(self, question, order, **kw):
+    def __init__(self, question, **kw):
         super(MuchScreen, self).__init__(**kw)
 
         self.question = question
 
         # Sets question and question number values in .kv file.
-        self.qnumber.text = str(order)
         self.question_text.text = self.question["Question"]
+        self.qnumber.text = str(app.question_set.mc_questions.index(question) + 1)
         # Creates lists of button .kv ids and answer choices for shuffling of choices and easy iteration.
         id_list = [self.choice1, self.choice2, self.choice3, self.choice4]
         ac_list = [self.question["Choice1"], self.question["Choice2"], self.question["Choice3"], self.question["Choice4"]]
@@ -107,19 +124,19 @@ class FITBScreen(MDScreen):
 
     global chosen_answers
 
-    def __init__(self, question, order, **kw):
+    def __init__(self, question, **kw):
         super(FITBScreen, self).__init__(**kw)
 
         self.question = question
 
         # Sets question and question number values in .kv file.
         # Also reads and stores correct FITB answer from question data.
-        self.qnumber.text = str(order)
         self.question_text.text = self.question["Question"]
+        self.qnumber.text = str(app.question_set.fitb_questions.index(question) + app.mc_quantity + 1)
         self.correct_answer = self.question["Choice1"]
 
     def answerChosen(self):
-        if self.answer_given.text == "": # Only proceeds to the next screen if the answer given is not blank.
+        if self.answer_given.text == "" or len(self.answer_given.text) > 30: # Only proceeds to the next screen if the answer given is not blank.
             self.answer_given.error = True 
         else: # Continues to the next screen and adds question results to chosen_answers list.
             answer = self.answer_given.text
@@ -133,14 +150,14 @@ class TOFScreen(MDScreen):
 
     global chosen_answers
 
-    def __init__(self, question, order, **kw):
+    def __init__(self, question, **kw):
         super(TOFScreen, self).__init__(**kw)
 
         self.question = question
 
         # Sets question, question number, and true/false choice values in .kv file.
-        self.qnumber.text = str(order)
         self.question_text.text = self.question["Question"]
+        self.qnumber.text = str(app.question_set.tof_questions.index(question) + app.mc_quantity + app.fitb_quantity + 1)
         self.trueChoice.text = 'TRUE'
         self.falseChoice.text = 'FALSE'
 
@@ -151,14 +168,14 @@ class TOFScreen(MDScreen):
         chosen_answers.append((btn.text, correct, self))
 
 class SelectScreen(MDScreen):
-    def __init__(self, question, order, **kw):
+    def __init__(self, question, **kw):
         super(SelectScreen, self).__init__(**kw)
 
         self.question = question
 
         # Sets question and question number values in .kv file.
-        self.qnumber.text = str(order)
         self.question_text.text = self.question["Question"]
+        self.qnumber.text = str(app.question_set.select_questions.index(question) + app.mc_quantity + app.fitb_quantity + app.select_quantity + 1)
         # Creates lists of checkbox .kv ids, label .kv ids, and answer choices for shuffling of choices and easy iteration.
         self.box_list = [self.box1, self.box2, self.box3, self.box4, self.box5, self.box6]
         self.label_list = [self.answer1, self.answer2, self.answer3, self.answer4, self.answer5, self.answer6]
@@ -189,6 +206,7 @@ class ResultsScreen(MDScreen):
         self.current = 0
 
     def calculateResults(self):
+
         if len(chosen_answers) > 3: # This prevents the code from running prematurely. Had trouble with that...
             # Counts up correct answers!
             for ans, corr, scrn in chosen_answers:
@@ -234,6 +252,16 @@ class ResultsScreen(MDScreen):
             self.your_answer.text = "YOUR ANSWER: " + chosen_answers[self.current][0]
             self.correct_answer.text = "CORRECT ANSWER: " + chosen_answers[self.current][2].question["Choice1"]
 
+class SettingsScreen(MDScreen):
+    def __init__(self, **kw):
+        super().__init__(**kw)
+
+    def setValues(self):
+        app.mc_quantity = self.mc_quantity.value
+        app.fitb_quantity = self.fitb_quantity.value
+        app.tof_quantity = self.tof_quantity.value
+        app.select_quantity = self.select_quantity.value
+
 class FileChooserWindow(FileChooserListView):
 
     # This runs when a directory is chosen by the file manager modal view.
@@ -271,8 +299,9 @@ class FileChooserWindow(FileChooserListView):
                 correct_answer_list.append(', '.join(scrn.question["Right Answers"]))
                 user_answer_list.append(', '.join(usr_ans))
         
+        self.filename = 'fbla_quiz_results' + " {:%m_%d_%Y %H_%M_%S}".format(datetime.now()) + '.pdf'
         # Creates a pdf and saves it in the desired directory
-        printingResults.runPrinting(question_list, user_answer_list, correct_answer_list, correct_status_list, directory)
+        printingResults.runPrinting(question_list, user_answer_list, correct_answer_list, correct_status_list, directory, self.filename)
 
 class CopyrightInfo(MDLabel):
     def __init__(self, **kwargs):
@@ -283,38 +312,55 @@ class FBLAApp(MDApp):
 
     def build(self):
 
-        self.theme_cls.primary_palette = 'Blue'
-
         # Initialization of the screenmanager. This class manages the order
         # of the screens. This snippet also sets the main menu as the starting 
         # screen.
+        
+        self.theme_cls.primary_palette = "Blue"      
+
+        self.question_set = QuestionSet()
+
         self.sm = ScreenManager()
         self.root_screen = StartScreen(name='start')
+        self.settings_screen = SettingsScreen(name='settings')
         self.sm.add_widget(self.root_screen)
+        self.sm.add_widget(self.settings_screen)
+        self.sm.transition = SlideTransition()
+
+        self.mc_quantity = 2
+        self.fitb_quantity = 1
+        self.tof_quantity = 1
+        self.select_quantity = 1
+
         return self.sm
 
-    def resetQuiz(self):
+    def resetQuiz(self):  
 
         # Resets the stored answers and rolls for new questions.
         global chosen_answers
         chosen_answers = []
-        question_set.createQuestions()
+
+
         self.sm.clear_widgets()
-
-        # Adds fresh screens to the ScreenManager.
-        mc1_screen = MuchScreen(question_set.mc1, 1, name='mc1_screen')
-        mc2_screen = MuchScreen(question_set.mc2, 2, name='mc2_screen')
-        fitb_screen = FITBScreen(question_set.fitb, 3, name='fitb_screen')
-        tof_screen = TOFScreen(question_set.tof, 4, name='tof_screen')
-        slct_screen = SelectScreen(question_set.slct, 5, name='slct_screen')
-        results_screen = ResultsScreen(name='results_screen')
-
         self.sm.add_widget(self.root_screen)
-        self.sm.add_widget(mc1_screen)
-        self.sm.add_widget(mc2_screen)
-        self.sm.add_widget(fitb_screen)
-        self.sm.add_widget(tof_screen)
-        self.sm.add_widget(slct_screen)
+        self.sm.add_widget(self.settings_screen)
+
+
+        self.question_set.createQuestions(self.mc_quantity, self.fitb_quantity, self.tof_quantity, self.select_quantity)
+
+        for screen in self.question_set.mc_question_list:
+            self.sm.add_widget(screen)
+
+        for screen in self.question_set.fitb_question_list:
+            self.sm.add_widget(screen)
+
+        for screen in self.question_set.tof_question_list:
+            self.sm.add_widget(screen)
+
+        for screen in self.question_set.select_question_list:
+            self.sm.add_widget(screen)
+
+        results_screen = ResultsScreen(name='results_screen')
         self.sm.add_widget(results_screen)
 
     # Opens a file manager modal view (a little overlay window).
